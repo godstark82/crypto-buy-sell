@@ -1,0 +1,37 @@
+{
+  "dependencies": {
+    "@iconify/react": "^6.0.2",
+    "aos": "^2.3.4",
+    "axios": "^1.12.2",
+    "date-fns": "^4.1.0",
+    "firebase": "^12.3.0",
+    "framer-motion": "^12.23.22",
+    "gray-matter": "^4.0.3",
+    "next": "^14.2.33",
+    "next-auth": "^4.24.11",
+    "next-themes": "^0.4.6",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hot-toast": "^2.6.0",
+    "react-slick": "^0.31.0",
+    "remark": "^15.0.1",
+    "remark-html": "^16.0.1",
+    "sharp": "^0.34.4",
+    "slick-carousel": "^1.8.1"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "vercel-build": "next build"
+  },
+  "devDependencies": {
+    "@types/aos": "^3.0.7",
+    "@types/react": "19.1.15",
+    "@types/react-slick": "^0.23.13",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.17",
+    "typescript": "5.9.2"
+  }
+}
