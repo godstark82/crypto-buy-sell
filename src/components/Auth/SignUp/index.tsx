@@ -7,7 +7,11 @@ import Logo from "@/components/Layout/Header/Logo";
 import { useState } from "react";
 import Loader from "@/components/Common/Loader";
 import { auth } from "@/firebase/config";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { 
+  createUserWithEmailAndPassword,
+  updateProfile,
+  sendEmailVerification,
+ } from "firebase/auth";
 
 
 const SignUp = () => {
@@ -33,14 +37,20 @@ const SignUp = () => {
 
     try {
       // Create user with email and password
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password);
 
       // Update user profile with display name
       await updateProfile(userCredential.user, { displayName: name });
 
-      toast.success("Successfully registered!");
+      // Send email verification
+      await sendEmailVerification(userCredential.user);
+
+      toast.success("Verification email sent! Please verify your email.");
       setLoading(false);
-      router.push("/signin"); // Redirect to SignIn page
+      router.push("/verifyemail"); // Redirect to verify-email page
     } catch (err: any) {
       console.error(err);
       toast.error(err.message || "Registration failed.");

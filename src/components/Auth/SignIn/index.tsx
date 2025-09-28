@@ -7,7 +7,7 @@ import SocialSignIn from "../SocialSignIn";
 import Logo from "@/components/Layout/Header/Logo";
 import Loader from "@/components/Common/Loader";
 import { auth } from "@/firebase/config";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 
 const Signin = () => {
   const router = useRouter();
@@ -33,7 +33,23 @@ const Signin = () => {
     try {
       // ✅ Sign in using Firebase
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      console.log("User signed in:", userCredential.user);
+      const user = userCredential.user;
+
+      // ✅ Block login if email NOT verified
+      if (!user.emailVerified) {
+        toast.error("Please verify your email before logging in.");
+        setLoading(false);
+
+        // Optional: Send verification email again
+        try {
+          await sendEmailVerification(user);
+          toast("Verification link sent again to your email.");
+        } catch (error) {
+          console.error("Error sending verification email:", error);
+        }
+
+        return; // Stop here
+      }
 
       toast.success("Login successful!");
       setLoading(false);
