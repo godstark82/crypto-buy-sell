@@ -4,7 +4,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title:
-    "Sign In | Property",
+    "Sign In",
 };
 
 const SigninPage = () => {

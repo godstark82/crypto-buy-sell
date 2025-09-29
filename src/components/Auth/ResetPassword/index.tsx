@@ -11,10 +11,11 @@ import { confirmPasswordReset } from "firebase/auth";
 const ResetPassword = () => {
   const router = useRouter();
   const [password, setPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [loader, setLoader] = useState(false);
   const [oobCode, setOobCode] = useState<string | null>(null);
 
-  // Extract code from URL
+  // ✅ Extract code from URL
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setOobCode(params.get("oobCode"));
@@ -25,6 +26,11 @@ const ResetPassword = () => {
 
     if (!password) {
       toast.error("Please enter a new password.");
+      return;
+    }
+
+    if (password !== confirmNewPassword) {
+      toast.error("Passwords do not match!");
       return;
     }
 
@@ -39,6 +45,7 @@ const ResetPassword = () => {
       await confirmPasswordReset(auth, oobCode, password);
       toast.success("Password reset successfully!");
       setPassword("");
+      setConfirmNewPassword("");
       router.push("/signin");
     } catch (error: any) {
       console.error(error);
@@ -84,6 +91,18 @@ const ResetPassword = () => {
                     className="w-full rounded-md border border-stroke bg-transparent px-5 py-3 text-base text-dark outline-none transition placeholder:text-dark-6 focus:border-primary focus-visible:shadow-none dark:border-dark-3 dark:text-white dark:focus:border-primary"
                   />
                 </div>
+
+                <div className="mb-[22px]">
+                  <input
+                    type="password"
+                    placeholder="Confirm new password"
+                    value={confirmNewPassword}
+                    onChange={(e) => setConfirmNewPassword(e.target.value)}
+                    required
+                    className="w-full rounded-md border border-stroke bg-transparent px-5 py-3 text-base text-dark outline-none transition placeholder:text-dark-6 focus:border-primary focus-visible:shadow-none dark:border-dark-3 dark:text-white dark:focus:border-primary"
+                  />
+                </div>
+
                 <div>
                   <button
                     type="submit"
